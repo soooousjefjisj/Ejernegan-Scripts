@@ -1,0 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/soooousjefjisj/Ejernegan-Scripts/ca37487e8aab653fb13212e8dbd4ad91c7c21732/silent%20strike"))() 
+the script above this is for silent strike
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/soooousjefjisj/Ejernegan-Scripts/517e9337dfddac15bcc1d8ff5de26ea0d7473eb8/main.lua"))()
+the script above this is for any game. Noclip and spawns floors so you dont fall in void.

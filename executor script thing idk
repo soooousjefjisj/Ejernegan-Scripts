@@ -1,1 +1,344 @@
-local a=game;local b=task;local c=b.wait;local d=b.spawn;local e=a:GetService("UserInputService")local f=a:GetService("TweenService")local g=a:GetService("RunService")local h=a:GetService("CoreGui")local i=a:GetService("HttpService")local j=a:GetService("Players")local k=a:GetService("TextService")local l=j.LocalPlayer;for m,n in pairs(h:GetChildren())do if n.Name=="EJER_GOLIATH"then n:Destroy()end end;local o=Instance.new("ScreenGui")o.Name="EJER_GOLIATH"o.Parent=h;o.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;o.DisplayOrder=999999;local p=Instance.new("ImageButton")p.Name="E"p.Parent=o;p.BackgroundColor3=Color3.fromRGB(200,0,0)p.Position=UDim2.new(0.5,-35,0.5,-35)p.Size=UDim2.new(0,75,0,75)p.Image="rbxassetid://15671560492"p.ZIndex=100;Instance.new("UICorner",p).CornerRadius=UDim.new(1,0)local q=Instance.new("UIStroke",p)q.Color=Color3.fromRGB(255,255,255)q.Thickness=2.5;local r=Instance.new("Frame")r.Name="M"r.Parent=o;r.BackgroundColor3=Color3.fromRGB(10,10,10)r.Position=UDim2.new(0.5,-250,0.5,-175)r.Size=UDim2.new(0,500,0,350)r.Visible=false;r.ClipsDescendants=true;Instance.new("UICorner",r).CornerRadius=UDim.new(0,12)local s=Instance.new("UIStroke",r)s.Color=Color3.fromRGB(200,0,0)s.Thickness=2;local t=Instance.new("Frame")t.Name="H"t.Size=UDim2.new(1,0,0,40)t.BackgroundColor3=Color3.fromRGB(20,20,20)t.Parent=r;local u=Instance.new("TextLabel")u.Parent=t;u.Text="  EJER"u.Font=Enum.Font.GothamBold;u.TextColor3=Color3.fromRGB(255,255,255)u.TextSize=18;u.Size=UDim2.new(1,0,1,0)u.TextXAlignment=Enum.TextXAlignment.Left;u.BackgroundTransparency=1;local v=Instance.new("ScrollingFrame")v.Position=UDim2.new(0,10,0,50)v.Size=UDim2.new(1,-20,1,-100)v.BackgroundColor3=Color3.fromRGB(5,5,5)v.ScrollBarThickness=2;v.Parent=r;local w=Instance.new("TextBox")w.Size=UDim2.new(1,0,1,0)w.BackgroundTransparency=1;w.MultiLine=true;w.Text=""w.TextColor3=Color3.fromRGB(255,255,255)w.Font=Enum.Font.Code;w.TextSize=14;w.TextXAlignment=Enum.TextXAlignment.Left;w.TextYAlignment=Enum.TextYAlignment.Top;w.ClearTextOnFocus=false;w.Parent=v;local x=Instance.new("TextButton")x.Text="EXECUTE"x.Position=UDim2.new(0,10,1,-45)x.Size=UDim2.new(1,-20,0,35)x.BackgroundColor3=Color3.fromRGB(200,0,0)x.TextColor3=Color3.fromRGB(255,255,255)x.Font=Enum.Font.GothamBold;x.Parent=r;Instance.new("UICorner",x)local function y(z,A)local B,C,D;A.InputBegan:Connect(function(E)if E.UserInputType==Enum.UserInputType.MouseButton1 or E.UserInputType==Enum.UserInputType.Touch then B=true;C=E.Position;D=z.Position;E.Changed:Connect(function()if E.UserInputState==Enum.UserInputState.End then B=false end end)end end)e.InputChanged:Connect(function(E)if B and(E.UserInputType==Enum.UserInputType.MouseMovement or E.UserInputType==Enum.UserInputType.Touch)then local F=E.Position-C;z.Position=UDim2.new(D.X.Scale,D.X.Offset+F.X,D.Y.Scale,D.Y.Offset+F.Y)end end)end;y(r,t)y(p,p)local G,H;p.MouseButton1Down:Connect(function()G=p.Position end)p.MouseButton1Up:Connect(function()H=p.Position;local I=(Vector2.new(G.X.Offset,G.Y.Offset)-Vector2.new(H.X.Offset,H.Y.Offset)).Magnitude;if I<10 then r.Visible=not r.Visible;p.Visible=not r.Visible end end)x.MouseButton1Click:Connect(function()local J,K=loadstring(w.Text)if J then if getgenv then setfenv(J,getgenv()) end d(J)else warn("EJER ERROR: "..K)end end)local L=Instance.new("TextButton")L.Parent=t;L.Position=UDim2.new(1,-40,0,0)L.Size=UDim2.new(0,40,1,0)L.Text="X"L.TextColor3=Color3.fromRGB(255,255,255)L.BackgroundTransparency=1;L.MouseButton1Click:Connect(function()r.Visible=false;p.Visible=true end)local M={}for N=1,950 do M[N]=function()local O=N*N;return O end end
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+-- Dark Executor Style UI With Animated Logo
+
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "EjerExecutor"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- Main Window
+local main = Instance.new("Frame")
+main.Size = UDim2.new(0, 950, 0, 550)
+main.Position = UDim2.new(0.5, -475, 0.5, -275)
+main.BackgroundColor3 = Color3.fromRGB(18,18,18)
+main.BorderSizePixel = 0
+main.Parent = gui
+main.Active = true
+main.Draggable = true
+
+-- Top Bar
+local top = Instance.new("Frame")
+top.Size = UDim2.new(1,0,0,40)
+top.BackgroundColor3 = Color3.fromRGB(22,22,22)
+top.Parent = main
+
+-- LOGO ICON
+local icon = Instance.new("ImageLabel")
+icon.Size = UDim2.new(0, 35, 0, 35)
+icon.Position = UDim2.new(0, 8, 0.5, -17)
+icon.BackgroundTransparency = 1
+icon.Image = "rbxassetid://185299921"
+icon.ImageTransparency = 1
+icon.Parent = top
+
+-- Glow
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(255, 0, 0)
+stroke.Thickness = 2
+stroke.Transparency = 1
+stroke.Parent = icon
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -90, 1, 0)
+title.Position = UDim2.new(0, 50, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "Ejer"
+title.TextColor3 = Color3.fromRGB(255,80,80)
+title.Font = Enum.Font.GothamMedium
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = top
+
+-- Close
+local close = Instance.new("TextButton")
+close.Size = UDim2.new(0,40,1,0)
+close.Position = UDim2.new(1,-40,0,0)
+close.Text = "âœ•"
+close.BackgroundTransparency = 1
+close.TextColor3 = Color3.fromRGB(200,200,200)
+close.Font = Enum.Font.GothamBold
+close.TextSize = 18
+close.Parent = top
+
+close.MouseButton1Click:Connect(function()
+	main.Visible = false
+end)
+
+-- Sidebar
+local sidebar = Instance.new("Frame")
+sidebar.Size = UDim2.new(0,150,1,-40)
+sidebar.Position = UDim2.new(0,0,0,40)
+sidebar.BackgroundColor3 = Color3.fromRGB(22,22,22)
+sidebar.Parent = main
+
+-- Content
+local content = Instance.new("Frame")
+content.Size = UDim2.new(1,-150,1,-40)
+content.Position = UDim2.new(0,150,0,40)
+content.BackgroundColor3 = Color3.fromRGB(15,15,15)
+content.Parent = main
+
+-- Pages
+local editorPage = Instance.new("Frame")
+editorPage.Size = UDim2.new(1,0,1,0)
+editorPage.BackgroundTransparency = 1
+editorPage.Parent = content
+
+local settingsPage = editorPage:Clone()
+settingsPage.Visible = false
+settingsPage.Parent = content
+
+local consolePage = editorPage:Clone()
+consolePage.Visible = false
+consolePage.Parent = content
+
+-- Sidebar Buttons
+local function makeTab(name, order)
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(1,0,0,50)
+	btn.Position = UDim2.new(0,0,0,(order-1)*50)
+	btn.Text = name
+	btn.BackgroundColor3 = Color3.fromRGB(22,22,22)
+	btn.TextColor3 = Color3.fromRGB(200,200,200)
+	btn.Font = Enum.Font.GothamMedium
+	btn.TextSize = 14
+	btn.Parent = sidebar
+	return btn
+end
+
+local editorBtn = makeTab("Editor",1)
+local settingsBtn = makeTab("Settings",2)
+local consoleBtn = makeTab("Console",3)
+
+local function switch(page)
+	editorPage.Visible = false
+	settingsPage.Visible = false
+	consolePage.Visible = false
+	page.Visible = true
+end
+
+editorBtn.MouseButton1Click:Connect(function()
+	switch(editorPage)
+end)
+
+settingsBtn.MouseButton1Click:Connect(function()
+	switch(settingsPage)
+end)
+
+consoleBtn.MouseButton1Click:Connect(function()
+	switch(consolePage)
+end)
+
+-- Editor
+local box = Instance.new("TextBox")
+box.Size = UDim2.new(1,-20,1,-60)
+box.Position = UDim2.new(0,10,0,10)
+box.MultiLine = true
+box.ClearTextOnFocus = false
+box.TextWrapped = false
+box.TextXAlignment = Enum.TextXAlignment.Left
+box.TextYAlignment = Enum.TextYAlignment.Top
+box.BackgroundColor3 = Color3.fromRGB(20,20,20)
+box.TextColor3 = Color3.fromRGB(230,230,230)
+box.Font = Enum.Font.Code
+box.TextSize = 15
+box.Text = "-- print('hello world')"
+box.Parent = editorPage
+
+local execute = Instance.new("TextButton")
+execute.Size = UDim2.new(0,120,0,35)
+execute.Position = UDim2.new(0,10,1,-45)
+execute.Text = "Execute"
+execute.BackgroundColor3 = Color3.fromRGB(35,35,35)
+execute.TextColor3 = Color3.new(1,1,1)
+execute.Font = Enum.Font.GothamMedium
+execute.TextSize = 14
+execute.Parent = editorPage
+
+-- Console
+local consoleOutput = Instance.new("TextLabel")
+consoleOutput.Size = UDim2.new(1,-20,1,-20)
+consoleOutput.Position = UDim2.new(0,10,0,10)
+consoleOutput.BackgroundTransparency = 1
+consoleOutput.TextWrapped = true
+consoleOutput.TextYAlignment = Enum.TextYAlignment.Top
+consoleOutput.TextXAlignment = Enum.TextXAlignment.Left
+consoleOutput.TextColor3 = Color3.fromRGB(255,80,80)
+consoleOutput.Font = Enum.Font.Code
+consoleOutput.TextSize = 14
+consoleOutput.Text = "Console Ready..."
+consoleOutput.Parent = consolePage
+
+-- Execute Logic
+execute.MouseButton1Click:Connect(function()
+	local func, err = loadstring(box.Text)
+	if func then
+		local success, result = pcall(func)
+		if success then
+			consoleOutput.Text = "Executed Successfully."
+		else
+			consoleOutput.Text = "Error: ".. tostring(result)
+		end
+	else
+		consoleOutput.Text = "Compile Error: ".. tostring(err)
+	end
+	switch(consolePage)
+end)
+
+-- Logo Animation
+local function playIntro()
+	icon.Size = UDim2.new(0, 10, 0, 10)
+	icon.ImageTransparency = 1
+	stroke.Transparency = 1
+	
+	local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	
+	TweenService:Create(icon, tweenInfo, {
+		Size = UDim2.new(0, 35, 0, 35),
+		ImageTransparency = 0
+	}):Play()
+	
+	TweenService:Create(stroke, tweenInfo, {
+		Transparency = 0
+	}):Play()
+end
+
+playIntro()
+
+-- Pulse + Rotation
+RunService.RenderStepped:Connect(function()
+	stroke.Thickness = 2 + math.sin(tick() * 3)
+	icon.Rotation += 0.05
+end)
+
+-- Toggle
+UIS.InputBegan:Connect(function(input,gp)
+	if gp then return end
+	if input.KeyCode == Enum.KeyCode.RightShift then
+		main.Visible = not main.Visible
+	end
+end)
+-- Floating Open Button
+
+local TweenService = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
+
+-- Hide main UI at start
+main.Visible = false
+
+local openBtn = Instance.new("Frame")
+openBtn.Size = UDim2.new(0, 60, 0, 60)
+openBtn.Position = UDim2.new(0, 20, 0.5, -30)
+openBtn.BackgroundColor3 = Color3.fromRGB(30,30,30)
+openBtn.BorderSizePixel = 0
+openBtn.Parent = gui
+openBtn.Active = true
+openBtn.Draggable = true
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0,12)
+corner.Parent = openBtn
+
+
+local logo = Instance.new("ImageLabel")
+logo.Size = UDim2.new(0.7,0,0.7,0)
+logo.Position = UDim2.new(0.15,0,0.15,0)
+logo.BackgroundTransparency = 1
+logo.Image = "rbxassetid://109344748296552"
+logo.Parent = openBtn
+
+-- Glow Stroke
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(255,0,0)
+stroke.Thickness = 2
+stroke.Parent = openBtn
+
+-- Pulse Effect
+game:GetService("RunService").RenderStepped:Connect(function()
+	stroke.Thickness = 2 + math.sin(tick()*3)
+end)
+-- Floating Open Button
+
+local TweenService = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
+
+-- Hide main UI at start
+main.Visible = false
+
+local openBtn = Instance.new("Frame")
+openBtn.Size = UDim2.new(0, 60, 0, 60)
+openBtn.Position = UDim2.new(0, 20, 0.5, -30)
+openBtn.BackgroundColor3 = Color3.fromRGB(30,30,30)
+openBtn.BorderSizePixel = 0
+openBtn.Parent = gui
+openBtn.Active = true
+openBtn.Draggable = true
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0,12)
+corner.Parent = openBtn
+
+-- Logo Image
+local logo = Instance.new("ImageLabel")
+logo.Size = UDim2.new(0.7,0,0.7,0)
+logo.Position = UDim2.new(0.15,0,0.15,0)
+logo.BackgroundTransparency = 1
+logo.Image = "rbxassetid://109344748296552"
+logo.Parent = openBtn
+
+-- Glow Stroke
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(255,0,0)
+stroke.Thickness = 2
+stroke.Parent = openBtn
+
+-- Pulse Effect
+game:GetService("RunService").RenderStepped:Connect(function()
+	stroke.Thickness = 2 + math.sin(tick()*3)
+end)
+
+-- Click Detection
+local click = Instance.new("TextButton")
+click.Size = UDim2.new(1,0,1,0)
+click.BackgroundTransparency = 1
+click.Text = ""
+click.Parent = openBtn
+
+click.MouseButton1Click:Connect(function()
+	main.Visible = not main.Visible
+	
+	-- Little pop animation
+	local tween = TweenService:Create(openBtn, TweenInfo.new(0.15), {
+		Size = UDim2.new(0, 65, 0, 65)
+	})
+	tween:Play()
+	tween.Completed:Wait()
+	
+	TweenService:Create(openBtn, TweenInfo.new(0.15), {
+		Size = UDim2.new(0, 60, 0, 60)
+	}):Play()
+end)
+
+-- Hover Animation
+click.MouseEnter:Connect(function()
+	TweenService:Create(openBtn, TweenInfo.new(0.2), {
+		BackgroundColor3 = Color3.fromRGB(45,45,45)
+	}):Play()
+end)
+
+click.MouseLeave:Connect(function()
+	TweenService:Create(openBtn, TweenInfo.new(0.2), {
+		BackgroundColor3 = Color3.fromRGB(30,30,30)
+	}):Play()
+end)

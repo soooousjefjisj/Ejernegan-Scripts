@@ -1,145 +1,126 @@
---[[ 
-    EJER NEGAN EXECUTOR V2 - FUTURISTIC INTERFACE
-    Optimized for Delta, Xeno, and PC
-]]
-
+-- [[ EJER NEGAN EXECUTOR V3 - XENO-INSPIRED INTERFACE ]]
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 
--- 1. CLEANUP (Prevents overlapping if executed twice)
-if CoreGui:FindFirstChild("EJER_PREMIUM") then
-    CoreGui:FindFirstChild("EJER_PREMIUM"):Destroy()
-end
+-- 1. CLEANUP (Prevents clones)
+if CoreGui:FindFirstChild("EJER_FUTURISTIC") then CoreGui:FindFirstChild("EJER_FUTURISTIC"):Destroy() end
 
--- 2. CREATE UI CONTAINER
 local MainGui = Instance.new("ScreenGui")
-MainGui.Name = "EJER_PREMIUM"
+MainGui.Name = "EJER_FUTURISTIC"
 MainGui.Parent = CoreGui
-MainGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-MainGui.DisplayOrder = 9999
+MainGui.DisplayOrder = 10000
 
--- 3. THE FLOATING "CURSIVE E" BUTTON (CENTERED INITIALLY)
+-- 2. THE "E" TOGGLE BUTTON (Centered & Glowing)
 local E_Button = Instance.new("ImageButton")
-local ButtonCorner = Instance.new("UICorner")
-local ButtonStroke = Instance.new("UIStroke")
+local E_Corner = Instance.new("UICorner")
+local E_Stroke = Instance.new("UIStroke")
 
-E_Button.Name = "E_Button"
+E_Button.Name = "E_Toggle"
 E_Button.Parent = MainGui
+E_Button.Position = UDim2.new(0.5, -40, 0.5, -40) -- Exact Center
+E_Button.Size = UDim2.new(0, 80, 0, 80)
 E_Button.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-E_Button.Position = UDim2.new(0.5, -35, 0.5, -35) -- DEAD CENTER
-E_Button.Size = UDim2.new(0, 70, 0, 70)
 E_Button.Image = "rbxassetid://15671560492" -- Cursive E
-E_Button.Visible = true
 E_Button.Draggable = true
 E_Button.Active = true
 
-ButtonCorner.CornerRadius = UDim.new(0, 50)
-ButtonCorner.Parent = E_Button
+E_Corner.CornerRadius = UDim.new(1, 0)
+E_Corner.Parent = E_Button
+E_Stroke.Color = Color3.fromRGB(0, 200, 255)
+E_Stroke.Thickness = 3
+E_Stroke.Parent = E_Button
 
-ButtonStroke.Color = Color3.fromRGB(0, 255, 255) -- Cyan Glow
-ButtonStroke.Thickness = 2
-ButtonStroke.Parent = E_Button
-
--- 4. THE MAIN EXECUTOR PANEL (FUTURISTIC LOOK)
+-- 3. THE MAIN "XENO" STYLE PANEL
 local MainFrame = Instance.new("Frame")
-local MainCorner = Instance.new("UICorner")
-local TopBar = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
+local FrameCorner = Instance.new("UICorner")
+local FrameStroke = Instance.new("UIStroke")
+local TitleBar = Instance.new("Frame")
+local TitleText = Instance.new("TextLabel")
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = MainGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
-MainFrame.BorderSizePixel = 0
-MainFrame.Position = UDim2.new(0.5, -250, 0.5, -175) -- Centered
-MainFrame.Size = UDim2.new(0, 500, 0, 350)
+MainFrame.Position = UDim2.new(0.5, -275, 0.5, -190)
+MainFrame.Size = UDim2.new(0, 550, 0, 380)
 MainFrame.Visible = false
 MainFrame.ClipsDescendants = true
 
-MainCorner.CornerRadius = UDim.new(0, 10)
-MainCorner.Parent = MainFrame
+FrameCorner.CornerRadius = UDim.new(0, 12)
+FrameCorner.Parent = MainFrame
+FrameStroke.Color = Color3.fromRGB(30, 30, 30)
+FrameStroke.Thickness = 2
+FrameStroke.Parent = MainFrame
 
--- Top Bar Branding
-TopBar.Size = UDim2.new(1, 0, 0, 40)
-TopBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-TopBar.Parent = MainFrame
+-- Title Bar
+TitleBar.Size = UDim2.new(1, 0, 0, 45)
+TitleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+TitleBar.Parent = MainFrame
 
-Title.Parent = TopBar
-Title.Text = "EJER EXECUTOR | v2.0"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Size = UDim2.new(1, 0, 1, 0)
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 18
+TitleText.Parent = TitleBar
+TitleText.Text = "  EJER EXECUTOR PREMIUM"
+TitleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleText.Font = Enum.Font.GothamBold
+TitleText.TextSize = 20
+TitleText.Size = UDim2.new(1, 0, 1, 0)
+TitleText.TextXAlignment = Enum.TextXAlignment.Left
 
--- 5. BUTTON CLICK ANIMATION (Open/Close)
-local function toggleUI()
-    if MainFrame.Visible == false then
-        MainFrame.Visible = true
-        MainFrame.Size = UDim2.new(0, 0, 0, 0)
-        MainFrame:TweenSize(UDim2.new(0, 500, 0, 350), "Out", "Quad", 0.3, true)
-        E_Button.Visible = false
-    else
-        MainFrame:TweenSize(UDim2.new(0, 0, 0, 0), "In", "Quad", 0.3, true, function()
-            MainFrame.Visible = false
-            E_Button.Visible = true
-        end)
-    end
-end
+-- 4. SCRIPT HUB & SEARCH BAR
+local SearchBox = Instance.new("TextBox")
+SearchBox.Parent = MainFrame
+SearchBox.Position = UDim2.new(0, 15, 0, 55)
+SearchBox.Size = UDim2.new(1, -30, 0, 40)
+SearchBox.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+SearchBox.PlaceholderText = "Search Scripts..."
+SearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-E_Button.MouseButton1Click:Connect(toggleUI)
+local ScrollContainer = Instance.new("ScrollingFrame")
+ScrollContainer.Parent = MainFrame
+ScrollContainer.Position = UDim2.new(0, 15, 0, 105)
+ScrollContainer.Size = UDim2.new(1, -30, 1, -120)
+ScrollContainer.BackgroundTransparency = 1
+ScrollContainer.ScrollBarThickness = 3
 
--- 6. ADDING A MINIMIZE BUTTON INSIDE MAIN FRAME
-local MiniBtn = Instance.new("TextButton")
-MiniBtn.Parent = TopBar
-MiniBtn.Text = "-"
-MiniBtn.Position = UDim2.new(1, -40, 0, 0)
-MiniBtn.Size = UDim2.new(0, 40, 1, 0)
-MiniBtn.BackgroundTransparency = 1
-MiniBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-MiniBtn.TextSize = 25
-MiniBtn.MouseButton1Click:Connect(toggleUI)
+local List = Instance.new("UIListLayout")
+List.Parent = ScrollContainer
+List.Padding = UDim.new(0, 10)
 
--- 7. SEARCHABLE SCRIPT HUB (The "Thousands of Lines" style setup)
--- [Note: You can add as many buttons as you want here]
-local Container = Instance.new("ScrollingFrame")
-Container.Parent = MainFrame
-Container.Position = UDim2.new(0, 10, 0, 50)
-Container.Size = UDim2.new(1, -20, 1, -60)
-Container.BackgroundTransparency = 1
-Container.ScrollBarThickness = 2
-
-local UIList = Instance.new("UIListLayout")
-UIList.Parent = Container
-UIList.Padding = UDim.new(0, 5)
-
--- FUNCTION TO ADD SCRIPTS QUICKLY
+-- Function to add script buttons
 local function AddScript(name, callback)
-    local b = Instance.new("TextButton")
-    b.Parent = Container
-    b.Size = UDim2.new(1, 0, 0, 40)
-    b.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    b.Text = "  " .. name
-    b.TextColor3 = Color3.fromRGB(255, 255, 255)
-    b.TextXAlignment = Enum.TextXAlignment.Left
-    b.Font = Enum.Font.Gotham
-    local c = Instance.new("UICorner")
-    c.CornerRadius = UDim.new(0, 6)
-    c.Parent = b
-    b.MouseButton1Click:Connect(callback)
+    local btn = Instance.new("TextButton")
+    btn.Parent = ScrollContainer
+    btn.Size = UDim2.new(1, 0, 0, 45)
+    btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    btn.Text = "  " .. name
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Font = Enum.Font.Gotham
+    btn.TextXAlignment = Enum.TextXAlignment.Left
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
+    btn.MouseButton1Click:Connect(callback)
 end
 
--- ADD YOUR SCRIPTS HERE
-AddScript("Infinite Yield", function() 
-    loadstring(game:HttpGet('https://raw.githubusercontent.com'))() 
+-- 5. SCRIPT LIST (Add as many as you want here)
+AddScript("Infinite Yield", function() loadstring(game:HttpGet('https://raw.githubusercontent.com'))() end)
+AddScript("CMD-X", function() loadstring(game:HttpGet('https://raw.githubusercontent.com'))() end)
+AddScript("Blox Fruits AutoFarm (Mockup)", function() print("AutoFarm Active!") end)
+
+-- 6. TOGGLE LOGIC
+E_Button.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+    E_Button.Visible = not MainFrame.Visible
 end)
 
-AddScript("Build A Boat AutoFarm", function()
-    print("Executing Build a Boat...")
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Parent = TitleBar
+CloseBtn.Position = UDim2.new(1, -45, 0, 0)
+CloseBtn.Size = UDim2.new(0, 45, 1, 0)
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(200, 0, 0)
+CloseBtn.BackgroundTransparency = 1
+CloseBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    E_Button.Visible = true
 end)
 
--- NOTIFICATION
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "EJER LOADED",
-    Text = "Press the Cursive E in the center!",
-    Duration = 5
-})
+print("EJER EXECUTOR LOADED SUCCESSFULLY")
+

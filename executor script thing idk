@@ -1,100 +1,68 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu'))()
 
--- 1. DETECTION LOGIC (PC vs Mobile)
-local UserInputService = game:GetService("UserInputService")
-local GuiService = game:GetService("GuiService")
-local IsMobile = UserInputService.TouchEnabled
-local ScreenSize = workspace.CurrentCamera.ViewportSize
-
--- Set sizes based on device
+-- DETECTION
+local IsMobile = game:GetService("UserInputService").TouchEnabled
 local FinalSize = IsMobile and UDim2.new(0, 360, 0, 220) or UDim2.new(0, 500, 0, 350)
 
--- 2. CREATE THE WINDOW
+-- WINDOW
 local Window = Rayfield:CreateWindow({
    Name = "EJER Executor",
-   LoadingTitle = "EJER Mobile & PC Interface",
+   LoadingTitle = "EJER Mobile & PC",
    LoadingSubtitle = "by EJER",
-   ConfigurationSaving = { Enabled = true, Folder = "EJER_Scripts" },
-   KeySystem = false -- Set to true if you want a key system
+   ConfigurationSaving = { Enabled = false },
+   KeySystem = false
 })
 
--- 3. THE "CURSIVE E" FLOATING BUTTON (The Minimize Feature)
--- This creates a button that stays on screen to re-open the UI
-local ReopenButton = Instance.new("ScreenGui")
-local EButton = Instance.new("ImageButton")
+-- THE BUTTON (FIXED & VISIBLE)
+local ScreenGui = Instance.new("ScreenGui")
+local ToggleButton = Instance.new("ImageButton")
+local Corner = Instance.new("UICorner")
 
-ReopenButton.Name = "EJER_Toggle"
-ReopenButton.Parent = game.CoreGui
-ReopenButton.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Name = "EJER_GUI"
+ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.DisplayOrder = 999 -- Ensures it stays on top
 
-EButton.Name = "E_Logo"
-EButton.Parent = ReopenButton
-EButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-EButton.Position = UDim2.new(0.05, 0, 0.15, 0)
-EButton.Size = UDim2.new(0, 50, 0, 50)
-EButton.Image = "rbxassetid://123456789" -- REPLACE THIS with a Cursive E Asset ID
-EButton.Visible = false -- Hidden until UI is minimized
+ToggleButton.Name = "E_Button"
+ToggleButton.Parent = ScreenGui
+ToggleButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Bright Red so you can see it!
+ToggleButton.Position = UDim2.new(0.1, 0, 0.2, 0)
+ToggleButton.Size = UDim2.new(0, 70, 0, 70) -- Bigger size
+ToggleButton.Active = true
+ToggleButton.Draggable = true -- Standard Draggable
+ToggleButton.Image = "rbxassetid://15671560492" -- Cursive E
 
--- Make the E button draggable for mobile
-EButton.Active = true
-EButton.Draggable = true
+Corner.Parent = ToggleButton
 
-EButton.MouseButton1Click:Connect(function()
-    Window:Visible(true)
-    EButton.Visible = false
+ToggleButton.MouseButton1Click:Connect(function()
+    -- Logic to toggle Rayfield Visibility
+    local main = game:GetService("CoreGui"):FindFirstChild("Rayfield")
+    if main then
+        main.Enabled = not main.Enabled
+    end
 end)
 
--- 4. SCRIPT HUB TAB (With Search Bar)
-local HubTab = Window:CreateTab("Script Hub", 4483362458) -- Hub Icon
-
+-- TABS
+local HubTab = Window:CreateTab("Script Hub", 4483362458)
 HubTab:CreateInput({
    Name = "Search Scripts...",
-   PlaceholderText = "Type game name (e.g. Blox Fruits)",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(Text)
-       print("Searching for: " .. Text)
-       -- You would add your filtering logic here
-   end,
+   PlaceholderText = "Search...",
+   Callback = function(t) print(t) end,
 })
 
 HubTab:CreateButton({
-   Name = "Infinite Yield (Universal)",
-   Callback = function()
-       loadstring(game:HttpGet('https://raw.githubusercontent.com'))()
-   end,
+   Name = "Infinite Yield",
+   Callback = function() loadstring(game:HttpGet('https://raw.githubusercontent.com'))() end,
 })
 
-HubTab:CreateButton({
-   Name = "CMD-X",
-   Callback = function()
-       loadstring(game:HttpGet('https://raw.githubusercontent.com'))()
-   end,
-})
-
--- 5. EXECUTOR TAB
 local ExecTab = Window:CreateTab("Executor", 4483345998)
-
-local ScriptToRun = ""
+local Code = ""
 ExecTab:CreateInput({
-   Name = "Paste Script Here",
-   PlaceholderText = "print('Hello EJER')",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(Text)
-       ScriptToRun = Text
-   end,
+   Name = "Source",
+   PlaceholderText = "Paste here...",
+   Callback = function(t) Code = t end,
 })
 
 ExecTab:CreateButton({
-   Name = "Run Script",
-   Callback = function()
-       assert(loadstring(ScriptToRun))()
-   end,
-})
-
--- Handle Minimizing
-Rayfield:Notify({
-   Title = "EJER Loaded",
-   Content = "Detected: " .. (IsMobile and "Mobile" or "PC"),
-   Duration = 5,
-   Image = 4483345998,
+   Name = "Execute",
+   Callback = function() assert(loadstring(Code))() end,
 })
